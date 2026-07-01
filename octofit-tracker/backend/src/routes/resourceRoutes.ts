@@ -1,15 +1,18 @@
 import { Router } from 'express';
-import User from '../models/userModel';
-import Team from '../models/teamModel';
-import Activity from '../models/activityModel';
-import LeaderboardEntry from '../models/leaderboardModel';
-import Workout from '../models/workoutModel';
+import { Model } from 'mongoose';
+import User, { IUser } from '../models/userModel';
+import Team, { ITeam } from '../models/teamModel';
+import Activity, { IActivity } from '../models/activityModel';
+import LeaderboardEntry, { ILeaderboardEntry } from '../models/leaderboardModel';
+import Workout, { IWorkout } from '../models/workoutModel';
 
 const router = Router();
 
-const registerCollectionRoutes = <T extends Record<string, unknown>>(
+type CollectionModel = Model<any>;
+
+const registerCollectionRoutes = (
   path: string,
-  model: { find: () => Promise<T[]>; create: (doc: Partial<T>) => Promise<T> },
+  model: CollectionModel,
 ) => {
   router.get(path, async (_req, res) => {
     try {
